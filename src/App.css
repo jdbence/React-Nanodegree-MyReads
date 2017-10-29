@@ -54,6 +54,10 @@
   flex-direction: column;
 }
 
+.header-inner-search {
+  padding-left: 0;
+}
+
 .header-content {
   flex: 1;
   width: 100%;
@@ -200,6 +204,17 @@ button {
   width: 75%;
 }
 
+.button-icon {
+  width: 56px;
+  height: 56px;
+  padding: 0;
+  min-width: 0;
+}
+
+.button-icon > img {
+  width: 75%;
+}
+
 footer {
   margin-top: 16px;
   background-color: #47525d;
@@ -208,4 +223,28 @@ footer {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.input-search {
+  display: flex;
+  flex: 1;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 2px;
+  outline: none;
+}
+
+.input-search:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.input-search > input {
+  color: white;
+  border: none;
+  width: 100%;
+  padding: 8px;
+  background: none;
+}
+
+textarea:focus, input:focus{
+  outline: none;
 }

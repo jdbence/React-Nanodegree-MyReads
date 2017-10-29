@@ -31,7 +31,7 @@ class App extends Component {
     return (
       <div className="App">
         <Route exact path='/' component={HomeRoute} />
-        <Route path='/search' render={SearchRoute} />
+        <Route path='/search' component={SearchRoute} />
       </div>
     );
   }

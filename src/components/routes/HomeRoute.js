@@ -87,9 +87,6 @@ class HomeRoute extends Component {
         </Header>
         <ScrollPane>
           <Category title={selectedTab} books={this.filterBooks(books, categories[selectedTab])}/>
-          <footer>
-            <span>Created by Joshua Bence</span>
-          </footer>
         </ScrollPane>
         <AddButton onClick={() => history.push('/search')}/>
       </div>

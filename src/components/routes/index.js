@@ -1,2 +1,2 @@
 export {default as HomeRoute} from './HomeRoute';
-export * from './SearchRoute';
+export {default as SearchRoute} from './SearchRoute';

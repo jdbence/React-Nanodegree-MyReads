@@ -16,7 +16,7 @@ export const HeaderContent = (props) => {
 };
 
 export const Header = (props) => {
-  const { children, fixed, column } = props;
+  const { children, fixed, column, headerInner } = props;
   const headerClass = classNames(
     'header',
     {
@@ -27,7 +27,8 @@ export const Header = (props) => {
     'header-inner',
     {
       'header-inner-column': column
-    }
+    },
+    headerInner || ''
   );
   return (
     <header className={headerClass}>

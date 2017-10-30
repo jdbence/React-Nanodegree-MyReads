@@ -20,21 +20,10 @@ const initialState = {
 };
 
 const updateBookStatus = (books, id, shelf, book) => {
-  let bookInList = books.find(b => b.id === id);
-  
-  // book needs to be added
-  if(!bookInList){
-    books = [...books];
-    if(book){
-      book.shelf = shelf;
-      books.push(book);
-      update(book, shelf);
-    }
-    return books;
-  }
-  update(bookInList, shelf);
-  bookInList.shelf = shelf;
-  return books.map(b => b.id === id ? bookInList : b);
+  book = book || books.find(b => b.id === id);
+  book.shelf = shelf;
+  update(book, shelf);
+  return books.filter(b => b.id !== book.id).concat([ book ]);
 };
 
 export const reducer = handleActions(

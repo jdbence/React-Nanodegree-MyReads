@@ -6,26 +6,9 @@ import {Header, HeaderContent, HeaderTitle} from 'components/ui/header';
 import {ScrollPane} from 'components/ui/scrollPane';
 import { Tabs, Tab } from 'components/ui/tabs';
 import {Category, READ, READING, FAVORITE} from 'components/ui/category';
-import addIcon from 'static/icon/add.svg';
 import searchIcon from 'static/icon/search.svg';
 import { withRouter } from 'react-router-dom';
 import { camelCase } from 'utils/StringUtil';
-
-const AddButton = (props) => {
-  return (
-    <button className="fab" onClick={props.onClick}>
-      <img src={addIcon} alt="add" />
-    </button>
-  );
-};
-
-const Search2Button = (props) => {
-  return (
-    <button className="toolbar-button" onClick={props.onClick}>
-      <img src={searchIcon} alt="search" />
-    </button>
-  );
-};
 
 const SearchButton = (props) => {
   return (
@@ -81,7 +64,6 @@ class HomeRoute extends Component {
         <ScrollPane>
           <Category books={this.filterBooks(books, categories[selectedTab])} onClickCategory={this.onClickCategory}/>
         </ScrollPane>
-        <AddButton onClick={() => history.push('/search')}/>
       </div>
     );
   }

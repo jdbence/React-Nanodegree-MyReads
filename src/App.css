@@ -251,16 +251,6 @@ button {
   width: 50%;
 }
 
-.toolbar-button {
-  width: 3em;
-  float: right;
-  margin-top: 5px;
-}
-
-.toolbar-button > img {
-  width: 100%;
-}
-
 footer {
   margin-top: 16px;
   background-color: #47525d;

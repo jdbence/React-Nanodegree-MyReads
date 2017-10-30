@@ -14,7 +14,6 @@ class App extends Component {
   componentWillMount(){
     getAll()
     .then((books) => {
-      console.log('books', books)
       this.props.dispatch(setBooks(books));
       this.setState({loading: false});
     });

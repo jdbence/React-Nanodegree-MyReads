@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { setBookStatus } from 'modules/BookModule';
 import {Header, HeaderContent} from 'components/ui/header';
 import {ScrollPane} from 'components/ui/scrollPane';
-import {Category, READ, READING, FAVORITE} from 'components/ui/category';
+import {Category} from 'components/ui/category';
 import backIcon from 'static/icon/arrow-back.svg';
 import { withRouter } from 'react-router-dom';
 import { search } from 'utils/BookAPI';
@@ -38,7 +38,7 @@ class SearchRoute extends Component {
   setShelf = (searchBooks) => {
     const { books } = this.props;
     searchBooks.forEach((b) => {
-      let stateBook = books.find(d => d.id == b.id);
+      let stateBook = books.find(d => d.id === b.id);
       if(stateBook){
         b.shelf = stateBook.shelf;
       }

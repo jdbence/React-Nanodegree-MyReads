@@ -213,8 +213,18 @@ button {
   margin: 0 5px;
 }
 
+.book-shelf > button:hover  {
+  background-color: #eee;
+}
+
 .book-shelf > button.selected  {
-  background-color: #b5b5ff;
+  border-color: #2196f3;
+  background-color: #2196f3;
+  color: white;
+}
+
+.book-shelf > button.selected:hover  {
+  background-color: #1e87da;
 }
 
 .book-info > * {

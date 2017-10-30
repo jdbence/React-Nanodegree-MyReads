@@ -3,11 +3,14 @@ import {READ, READING, FAVORITE} from 'components/ui/category';
 import { camelCase } from 'utils/StringUtil';
 
 const ShelfCategory = ({id, shelf, onClickCategory}) => {
+  const reading = shelf === camelCase(READING) ? "selected" : '';
+  const fav = shelf === camelCase(FAVORITE) ? "selected" : '';
+  const read = shelf === camelCase(READ) ? "selected" : '';
   return (
     <div className="book-shelf">
-      <button className={shelf === camelCase(READING) ? "selected" : ''} onClick={()=>onClickCategory(id, camelCase(READING))}>C</button>
-      <button className={shelf === camelCase(FAVORITE) ? "selected" : ''} onClick={()=>onClickCategory(id, camelCase(FAVORITE))}>W</button>
-      <button className={shelf === camelCase(READ) ? "selected" : ''} onClick={()=>onClickCategory(id, camelCase(READ))}>R</button>
+      <button className={reading} onClick={()=>onClickCategory(id, reading !== '' ? 'ds' : camelCase(READING))}>C</button>
+      <button className={fav} onClick={()=>onClickCategory(id, fav !== '' ? 'ds' : camelCase(FAVORITE))}>W</button>
+      <button className={read} onClick={()=>onClickCategory(id, read !== '' ? 'ds' : camelCase(READ))}>R</button>
     </div>
   );
 };

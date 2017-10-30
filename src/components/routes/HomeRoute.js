@@ -5,39 +5,33 @@ import { setBookStatus } from 'modules/BookModule';
 import {Header, HeaderContent, HeaderTitle} from 'components/ui/header';
 import {ScrollPane} from 'components/ui/scrollPane';
 import { Tabs, Tab } from 'components/ui/tabs';
+import {Category, READ, READING, FAVORITE} from 'components/ui/category';
 import addIcon from 'static/icon/add.svg';
+import searchIcon from 'static/icon/search.svg';
 import { withRouter } from 'react-router-dom';
-
-const READ = 'Read';
-const READING = 'Currently Reading';
-const FAVORITE = 'Want to Read';
-
-const Book = (data) => {
-  return (
-    <article className="book" key={data.id}>
-      <div className="book-img" style={{backgroundImage: `url(${data.imageLinks.thumbnail})`}}/>
-      <div className="book-info">
-        <h4>{data.title}</h4>
-        <p>{data.authors[0]}</p>
-      </div>
-    </article>
-  );
-};
+import { camelCase } from 'utils/StringUtil';
 
 const AddButton = (props) => {
   return (
     <button className="fab" onClick={props.onClick}>
-      <img src={addIcon} alt="addIcon" />
+      <img src={addIcon} alt="add" />
     </button>
   );
 };
 
-const Category = ({title, books}) => {
+const Search2Button = (props) => {
   return (
-    <section key={title} className="book-container">
-      {books.map((d) => Book(d))}
-      {books.length === 0 && <div>No Book</div>}
-    </section>
+    <button className="toolbar-button" onClick={props.onClick}>
+      <img src={searchIcon} alt="search" />
+    </button>
+  );
+};
+
+const SearchButton = (props) => {
+  return (
+    <button className="button-icon" onClick={props.onClick}>
+      <img src={searchIcon} alt="search" />
+    </button>
   );
 };
 
@@ -54,18 +48,16 @@ class HomeRoute extends Component {
   }
   
   filterBooks = (books, category) => {
-    const {read, reading, favorite} = this.props;
-    return books;
-    if(category === READ){
-      return books.filter(d => read.indexOf(d.id) !== -1);
-    }else if(category === READING){
-      return books.filter(d => reading.indexOf(d.id) !== -1);
-    }
-    return books.filter(d => favorite.indexOf(d.id) !== -1);
+    const shelf = camelCase(category);
+    return books.filter(d => d.shelf === shelf);
   }
   
   onTabChange = (selectedTab) => {
     this.setState({...this.state, selectedTab});
+  }
+  
+  onClickCategory = (id, shelf) => {
+    this.props.setBookStatus({id, shelf});
   }
   
   render(){
@@ -77,7 +69,8 @@ class HomeRoute extends Component {
       <div className="page">
         <Header column>
           <HeaderContent>
-            <HeaderTitle>My Reads</HeaderTitle>
+            <HeaderTitle>MY Reads</HeaderTitle>
+            <SearchButton onClick={() => history.push('/search')}/>
           </HeaderContent>
           <HeaderContent>
             <Tabs value={selectedTab} onChange={this.onTabChange}>
@@ -86,7 +79,7 @@ class HomeRoute extends Component {
           </HeaderContent>
         </Header>
         <ScrollPane>
-          <Category title={selectedTab} books={this.filterBooks(books, categories[selectedTab])}/>
+          <Category books={this.filterBooks(books, categories[selectedTab])} onClickCategory={this.onClickCategory}/>
         </ScrollPane>
         <AddButton onClick={() => history.push('/search')}/>
       </div>
@@ -99,10 +92,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = state => ({
-  books: state.books.books,
-  read: state.books.read,
-  reading: state.books.reading,
-  favorite: state.books.favorite
+  books: state.books.books
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(HomeRoute));

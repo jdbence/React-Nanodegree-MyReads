@@ -45,9 +45,12 @@
   display: flex;
   position: relative;
   min-height: 56px;
-  align-items: center;
   padding-left: 16px;
   padding-right: 16px;
+}
+
+.header-inner-row {
+  align-items: center;
 }
 
 .header-inner-column {
@@ -60,7 +63,9 @@
 
 .header-content {
   flex: 1;
-  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .header-logo {
@@ -70,6 +75,12 @@
 
 .header-title {
   text-align: left;
+  font-family: 'Indie Flower', cursive;
+  font-size: 1.8em;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .page {
@@ -156,7 +167,12 @@ button {
   width: 150px;
   height: 250px;
   border-radius: 5px;
+  overflow: hidden;
   box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12);
+}
+
+.book:hover > .book-info {
+  height: 6.5em;
 }
 
 .book-img {
@@ -167,10 +183,13 @@ button {
   background-position: center center;
   background-size: cover;
   background-color: #eaf4ff;
+  box-shadow: inset 0px -11px 8px -10px rgba(0, 0, 0, 0.1);
 }
 
 .book-info {
   margin: 5px;
+  height: 3.5em;
+  transition: height 100ms ease-out;
 }
 
 .book-info > h4 {
@@ -179,6 +198,23 @@ button {
 
 .book-info > p {
   margin: 10px 0;
+  color: #ababab;
+}
+
+.book-shelf {
+  
+}
+
+.book-shelf > button  {
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  width: 2em;
+  height: 2em;
+  margin: 0 5px;
+}
+
+.book-shelf > button.selected  {
+  background-color: #b5b5ff;
 }
 
 .book-info > * {
@@ -212,7 +248,17 @@ button {
 }
 
 .button-icon > img {
-  width: 75%;
+  width: 50%;
+}
+
+.toolbar-button {
+  width: 3em;
+  float: right;
+  margin-top: 5px;
+}
+
+.toolbar-button > img {
+  width: 100%;
 }
 
 footer {
@@ -245,6 +291,20 @@ footer {
   background: none;
 }
 
-textarea:focus, input:focus{
-  outline: none;
+.input-search > input::placeholder {
+  color: white;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.emptyList {
+  max-width: 10em;
+  width: 100%;
+  font-family: 'Indie Flower', cursive;
+  font-size: 2em;
+  color: grey;
+}
+
+.emptyList > img {
+  opacity: 0.15;
+  width: 100%;
 }

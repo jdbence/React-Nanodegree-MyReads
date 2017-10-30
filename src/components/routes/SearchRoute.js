@@ -4,40 +4,16 @@ import { connect } from 'react-redux';
 import { setBookStatus } from 'modules/BookModule';
 import {Header, HeaderContent} from 'components/ui/header';
 import {ScrollPane} from 'components/ui/scrollPane';
+import {Category, READ, READING, FAVORITE} from 'components/ui/category';
 import backIcon from 'static/icon/arrow-back.svg';
 import { withRouter } from 'react-router-dom';
 import { search } from 'utils/BookAPI';
-
-const READ = 'Read';
-const READING = 'Currently Reading';
-const FAVORITE = 'Want to Read';
-
-const Book = (data) => {
-  return (
-    <article className="book" key={data.id}>
-      <div className="book-img" style={{backgroundImage: `url(${data.imageLinks && data.imageLinks.thumbnail})`}}/>
-      <div className="book-info">
-        <h4>{data.title}</h4>
-        <p>{data.authors && data.authors[0]}</p>
-      </div>
-    </article>
-  );
-};
 
 const BackButton = (props) => {
   return (
     <button className="button-icon" onClick={props.onClick}>
       <img src={backIcon} alt="backIcon" />
     </button>
-  );
-};
-
-const Category = ({title='category', books}) => {
-  return (
-    <section key={title} className="book-container">
-      {books.map((d) => Book(d))}
-      {books.length === 0 && <div>No Book</div>}
-    </section>
   );
 };
 
@@ -50,12 +26,24 @@ class SearchRoute extends Component {
   };
   
   state = {
-    books: [], 
+    searchBooks: [], 
     search: ''
   }
   
   componentDidMount(){
     this.bookSearch(this.state.search);
+    this.textInput.focus();
+  }
+  
+  setShelf = (searchBooks) => {
+    const { books } = this.props;
+    searchBooks.forEach((b) => {
+      let stateBook = books.find(d => d.id == b.id);
+      if(stateBook){
+        b.shelf = stateBook.shelf;
+      }
+    });
+    return searchBooks;
   }
   
   bookSearch = (value) => {
@@ -63,12 +51,20 @@ class SearchRoute extends Component {
       search(value)
       .then((books) => {
         if(!books.error){
-          this.setState({books});
+          this.setState({searchBooks: this.setShelf(books)});
         }
       });
     } else {
-      this.setState({books: []});
+      this.setState({searchBooks: []});
     }
+  }
+  
+  onClickCategory = (id, shelf) => {
+    const { searchBooks } = this.state;
+    let book = searchBooks.find(b => b.id === id);
+    book.shelf = shelf;
+    this.props.setBookStatus({id, shelf, book});
+    this.setState({searchBooks: searchBooks.map(b => b.id === id ? book : b)});
   }
   
   searchTimout = 0;
@@ -88,12 +84,12 @@ class SearchRoute extends Component {
   
   componentWillUnmount(){
     clearTimeout(this.searchTimout);
+    this.textInput = null;
   }
   
   render(){
-    const categories = [READING, FAVORITE, READ];
     const { history } = this.props;
-    const { books, search } = this.state;
+    const { searchBooks, search } = this.state;
     
     return (
       <div className="page">
@@ -101,14 +97,15 @@ class SearchRoute extends Component {
           <BackButton onClick={() => history.push('/')}/>
           <HeaderContent>
             <div className="input-search">
-              <input type="text" value={search} onChange={this.onSearchChange}/>
+              <input type="text" placeholder="Search by Title or Author"
+                ref={(input) => { this.textInput = input; }}
+                value={search} onChange={this.onSearchChange}/>
             </div>
           </HeaderContent>
         </Header>
         <ScrollPane>
-          <Category books={books}/>
+          <Category books={searchBooks} onClickCategory={this.onClickCategory}/>
         </ScrollPane>
-        
       </div>
     );
   }
@@ -119,9 +116,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = state => ({
-  read: state.books.read,
-  reading: state.books.reading,
-  favorite: state.books.favorite
+  books: state.books.books
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SearchRoute));

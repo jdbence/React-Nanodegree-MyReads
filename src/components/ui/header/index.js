@@ -26,7 +26,8 @@ export const Header = (props) => {
   const headerInnerClass = classNames(
     'header-inner',
     {
-      'header-inner-column': column
+      'header-inner-column': column,
+      'header-inner-row': !column
     },
     headerInner || ''
   );
